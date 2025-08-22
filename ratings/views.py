@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views import generic
+from ratings.models import Rating
 
-# Create your views here.
+
+class RatingListView(generic.ListView):
+    model = Rating
+    template_name = "ratings/rating_list.html"

@@ -1,0 +1,31 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    {% for ad in advertisements %}
+    <div class="col-12 mb-4">
+      <div class="card bg-dark text-white w-100" style="border-radius: 1rem;">
+        <div class="card-body p-4">
+          <h3 class="card-title text-uppercase">{{ ad.title }}</h3>
+          <p class="card-text text-white-50">{{ ad.description }}</p>
+
+          {% if ad.is_active %}
+            <span class="badge bg-success">Active</span>
+            <a href= '' class="btn btn-outline-light btn-lg float-end">
+               Apply
+            </a>
+            <p class="card-text text-white-50">{{ ad.price }}$</p>
+            <p>Created:{{ ad.created_at }}</p>
+          {% else %}
+            <span class="badge bg-secondary">Inactive</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-warning text-center" role="alert">
+          Немає оголошень
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,12 +1,14 @@
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import FormView, UpdateView
 
 from accounts.forms import ProfileForm, CustomUserCreationForm, ProfileLoginForm
 from accounts.models import User, Profile
+from advertisements.models import Application
 
 
 # Вʼю на account
@@ -47,11 +49,36 @@ class ProfileView(generic.DetailView):
         return profile
 
 # оновлення користувача
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(generic.UpdateView):
     model = Profile
     form_class = ProfileForm
     template_name = "accounts/profile_update.html"
 
     def get_success_url(self):
-        return reverse_lazy("accounts:profile", kwargs={"pk": self.object.pk})
+        return reverse_lazy("accounts:profile", kwargs={"pk": self.object.user.pk})
 
+# лист бажаючих виконати завдання
+class ServingProfileView(generic.ListView):
+    model = Application
+    template_name = "accounts/servings.html"
+    context_object_name = "applications"
+
+    def get_queryset(self):
+        return Application.objects.filter(
+            advertisement__user=self.request.user
+        ).select_related(
+            "user",
+            "advertisement"
+        ).order_by('-created_at')
+
+@login_required
+def done_application(request, pk):
+    application = get_object_or_404(Application, pk=pk)
+    ad = application.advertisement
+
+    if ad.user == request.user and application.status == "accepted":
+        ad.is_active = False
+        ad.save()
+        application.delete()
+
+    return redirect('accounts:profile-serving', pk=request.user.pk)

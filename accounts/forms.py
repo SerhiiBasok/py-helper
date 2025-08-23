@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from accounts.models import Profile, User
+from categories.models import Category
+
 
 # форма реєстрації
 class CustomUserCreationForm(UserCreationForm):
@@ -18,11 +20,29 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update({'class': 'form-control'})
 
 # форма для редагування профілю
+
 class ProfileForm(forms.ModelForm):
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False  # необов'язкове поле
+    )
 
     class Meta:
         model = Profile
-        fields = "__all__"
+        exclude = ['user']
+
+    # Валідація телефону
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        if phone and not phone.isdigit():
+            raise forms.ValidationError("Телефон має містити лише цифри")
+        return phone
+
+    # Загальна валідація: хоча б телефон або біо
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
 
 # форма логіну
 class ProfileLoginForm(AuthenticationForm):

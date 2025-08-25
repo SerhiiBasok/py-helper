@@ -1,4 +1,82 @@
+{#Форма реєстрації#}
+
 {% extends "base.html" %}
+
 {% block content %}
-  <h1>Poplava logina</h1>
+
+  <section class="w-100 px-4 py-5 gradient-custom" style="border-radius: .5rem .5rem 0 0;">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2 text-uppercase">Registration</h2>
+              <p class="text-white-50 mb-5">Please enter your registration details</p>
+              {% if form.errors %}
+                <p style="color: red">Invalid credentials</p>
+              {% endif %}
+              <form method="post" action="{% url 'accounts:registration' %}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  {{ form.username }}
+                  <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+                  <div class="form-notch">
+                    <div class="form-notch-leading"></div>
+                    <div class="form-notch-middle"></div>
+                    <div class="form-notch-trailing"></div>
+                  </div>
+                  {{ form.username.errors }}
+                </div>
+
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  {{ form.email }}
+                  <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+                  <div class="form-notch">
+                    <div class="form-notch-leading"></div>
+                    <div class="form-notch-middle"></div>
+                    <div class="form-notch-trailing"></div>
+                  </div>
+                  {{ form.email.errors }}
+                </div>
+
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  {{ form.password1 }}
+                  <label class="form-label" for="{{ form.password1.id_for_label }}">Password</label>
+                  <div class="form-notch">
+                    <div class="form-notch-leading"></div>
+                    <div class="form-notch-middle"></div>
+                    <div class="form-notch-trailing"></div>
+                  </div>
+                  {{ form.password1.errors }}
+                </div>
+
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  {{ form.password2 }}
+                  <label class="form-label" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                  <div class="form-notch">
+                    <div class="form-notch-leading"></div>
+                    <div class="form-notch-middle"></div>
+                    <div class="form-notch-trailing"></div>
+                  </div>
+                  {{ form.password2.errors }}
+                </div>
+
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5"
+                        type="submit">
+                  Register
+                </button>
+              </form>
+            </div>
+            <div>
+              <p class="mb-0">Have an account? <a href="{% url 'accounts:login' %}"
+                                                  class="text-white-50 fw-bold">Login</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}

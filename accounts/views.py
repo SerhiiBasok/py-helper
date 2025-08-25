@@ -62,6 +62,12 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
         profile, created = Profile.objects.get_or_create(
             user=self.request.user
         )
+        profile = Profile.objects.select_related("user").prefetch_related(
+            "categories", "user__advertisements"
+        ).get(
+            pk=profile.pk
+        )
+
         return profile
 
 
@@ -104,7 +110,10 @@ class ServingProfileView(LoginRequiredMixin, generic.ListView):
 
 @login_required
 def done_application(request, pk):
-    application = get_object_or_404(Application, pk=pk)
+    application = get_object_or_404(
+        Application.objects.select_related("advertisement"),
+        pk=pk
+    )
     ad = application.advertisement
 
     if ad.user == request.user and application.status == "accepted":

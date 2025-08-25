@@ -17,26 +17,31 @@ class UserInfoView(LoginRequiredMixin, ListView):
             Profile,
             user__id=self.kwargs["user_id"]
         ).user
-        return Rating.objects.filter(
-            profile__user=self.user_obj
-        ).order_by(
-            "-created_at"
+        return (
+            Rating.objects
+            .filter(profile__user=self.user_obj)
+            .select_related(
+                "from_user",
+                "profile",
+                "profile__user"
+            )
+            .order_by("-created_at")
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_obj"] = self.user_obj
-        profile = self.user_obj.profile
+
+        # отримую профіль та категорії одним запитом
+        profile = Profile.objects.select_related("user").prefetch_related("categories").get(user=self.user_obj)
         context["phone"] = profile.phone
         context["tags"] = [c.name for c in profile.categories.all()]
-        avg = Rating.objects.filter(
-            profile=profile
-        ).aggregate(
-            Avg(
-                "rating"
-            )
-        )["rating__avg"]
-        context["avg_rating"] = avg
+
+        # середній рейтинг одним запитом
+        from django.db.models import Avg
+        avg_rating = Rating.objects.filter(profile=profile).aggregate(Avg("rating"))["rating__avg"]
+        context["avg_rating"] = avg_rating or 0
+
         return context
 
 # форма фідбеку

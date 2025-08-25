@@ -7,37 +7,24 @@ class Rating(models.Model):
     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
 
     profile = models.ForeignKey(
-        "accounts.Profile",
-        on_delete=models.CASCADE,
-        related_name="reviews"
+        "accounts.Profile", on_delete=models.CASCADE, related_name="reviews"
     )
     from_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
-        null=True, blank=True,
-        related_name="reviews"
+        null=True,
+        blank=True,
+        related_name="reviews",
     )
     rating = models.PositiveSmallIntegerField(
-        choices=RATING_CHOICES,
-        null=True,
-        blank=True
+        choices=RATING_CHOICES, null=True, blank=True
     )
-    comment = models.TextField(
-        blank=True
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
-
-    # Один користувач може залишити один відгук на профіль
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["profile", "from_user"], name="unique_application"
-            )
-        ]
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return (f"Rating {self.rating} by"
-                f" {self.from_user.username if self.from_user else 'Anonymous'}"
-                f" for {self.profile.user.username}")
+        return (
+            f"Rating {self.rating} by"
+            f" {self.from_user.username if self.from_user else 'Anonymous'}"
+            f" for {self.profile.user.username}"
+        )

@@ -32,6 +32,12 @@ class Advertisement(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+    def applicants(self):
+        return self.applications.values_list(
+            "user_id",
+            flat=True
+        )
+
 
 class Application(models.Model):
     user = models.ForeignKey(
@@ -44,17 +50,15 @@ class Application(models.Model):
         on_delete=models.CASCADE,
         related_name="applications"
     )
-    message = models.TextField(
-        blank=True
-    )
+    message = models.TextField(blank=True)
     status = models.CharField(
         max_length=20,
         choices=[
             ("pending", "Pending"),
             ("accepted", "Accept"),
-            ("rejected", "Rejected")
+            ("rejected", "Rejected"),
         ],
-        default="pending"
+        default="pending",
     )
     created_at = models.DateTimeField(
         auto_now_add=True
@@ -67,14 +71,14 @@ class Application(models.Model):
             )
         ]
 
-    """Прийняти заявку та закрити вакансію."""
+    # прийняти заявку та закрити вакансію
     def accept(self):
         self.status = "accepted"
         self.save()
         self.advertisement.is_active = False
         self.advertisement.save()
 
-    """Відхилити заявку."""
+    # відхилити заявку
     def reject(self):
         self.status = "rejected"
         self.save()

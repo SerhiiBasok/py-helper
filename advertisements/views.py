@@ -1,42 +1,61 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DeleteView, UpdateView
+from django.views.generic import DeleteView
 from django.views import generic
 
 from advertisements.forms import AdvertisementForm
 from advertisements.models import Advertisement, Application
 
-
 # Вʼю на оголошення
 
-# основна сторінка
-class HomePageView(generic.ListView):
+# головна сторінка
+class HomePageView(LoginRequiredMixin, generic.ListView):
     model = Advertisement
     template_name = "advertisements/home_page.html"
     context_object_name = "advertisements"
 
-    # квері для відображення всіх оголошень
     def get_queryset(self):
-        return Advertisement.objects.filter(is_active=True).order_by('-created_at')
+        return Advertisement.objects.filter(
+            is_active=True
+        ).order_by(
+            "-created_at"
+        )[:3]
 
-
-# список оголошень
-class AdvertisementList(generic.ListView):
+# стрічка оголошень
+class AdvertisementList(LoginRequiredMixin, generic.ListView):
     model = Advertisement
     template_name = "advertisements/advertisement_list.html"
     context_object_name = "advertisements"
     paginate_by = 10
 
-
-# оголошення
-# class ApplicationView(generic.ListView):
-#     model = Advertisement
+    def get_queryset(self):
+        queryset = Advertisement.objects.filter(
+            is_active=True
+        ).order_by(
+            "-created_at"
+        )
+        location = self.request.GET.get(
+            "location"
+        )
+        category = self.request.GET.get(
+            "category"
+        )
+        if location:
+            queryset = queryset.filter(
+                location__icontains=location
+            )
+        if category:
+            queryset = queryset.filter(
+                categories__name__icontains=category
+            )
+        return queryset
 
 # створення оголошення
-class CreateAdvertisementView(generic.CreateView):
+class CreateAdvertisementView(LoginRequiredMixin, generic.CreateView):
     model = Advertisement
-    fields = ["title", "price", "location", "categories", "description"]
+    form_class = AdvertisementForm
     template_name = "advertisements/advertisements_create.html"
     success_url = reverse_lazy("accounts:profile")
 
@@ -44,57 +63,76 @@ class CreateAdvertisementView(generic.CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-#Оповертаю після створення оголошення в профіль де можна побачити та відреданувати
     def get_success_url(self):
-        return reverse("accounts:profile", kwargs={"pk": self.request.user.profile.pk})
+        return reverse(
+            "accounts:profile",
+            kwargs={"pk": self.request.user.profile.pk}
+        )
 
 # видалення оголошення
-class DeleteAdvertisementView(DeleteView):
+class DeleteAdvertisementView(LoginRequiredMixin, DeleteView):
     model = Advertisement
-    success_url = reverse_lazy("accounts:profile")
 
-    # перенаправлення на профіль після видалення оголошення
     def get_success_url(self):
-        return reverse("accounts:profile", kwargs={"pk": self.request.user.profile.pk})
+        return reverse(
+            "accounts:profile",
+            kwargs={"pk": self.request.user.profile.pk}
+        )
 
-# редагування оголошення
-class UpdateAdvertisementView(generic.UpdateView):
+# оновлення оголошення
+class UpdateAdvertisementView(
+    LoginRequiredMixin,
+    generic.UpdateView):
     model = Advertisement
     form_class = AdvertisementForm
     template_name = "advertisements/advertisements_update.html"
 
     def get_success_url(self):
-        return reverse("accounts:profile", kwargs={"pk": self.request.user.profile.pk})
+        return reverse(
+            "accounts:profile",
+            kwargs={"pk": self.request.user.profile.pk}
+        )
 
-
+# відгук на оголошення
+@login_required
 def apply_to_advertisement(request, ad_pk):
     ad = get_object_or_404(Advertisement, pk=ad_pk)
 
     # перевіряємо, чи користувач вже подав заявку
-    existing_app = Application.objects.filter(user=request.user, advertisement=ad).first()
+    existing_app = Application.objects.filter(
+        user=request.user, advertisement=ad
+    ).first()
     if not existing_app:
         Application.objects.create(
             user=request.user,
             advertisement=ad,
-            message=f"{request.user.username} was send message"
+            message=f"{request.user.username} was send message",
         )
 
     return redirect("advertisements:list-advertisements")
 
+# передача відгуку у меседжі автора
 @login_required
 def reject_application(request, pk):
     application = get_object_or_404(Application, pk=pk)
     if application.advertisement.user == request.user:
         application.delete()
-    return redirect('accounts:profile-serving', pk=request.user.pk)
+    return redirect(
+        "accounts:profile-serving",
+        pk=request.user.pk
+    )
 
+# прийняти запит на заявку
 @login_required
 def accept_application(request, pk):
     application = get_object_or_404(Application, pk=pk)
     ad = application.advertisement
     if ad.user == request.user:
-        application.status = 'accepted'
+        application.status = "accepted"
         application.save()
         ad.is_active = False
         ad.save()
-    return redirect('accounts:profile-serving', pk=request.user.pk)
+    return redirect(
+        "accounts:profile-serving",
+        pk=request.user.pk
+    )

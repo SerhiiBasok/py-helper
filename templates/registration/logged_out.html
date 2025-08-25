@@ -1,7 +1,26 @@
+{#редірект після логауту#}
 {% extends "base.html" %}
 
 {% block content %}
-<p>Logged out!</p>
+  <div class="d-flex flex-column justify-content-center align-items-center py-5">
 
-<a href="{% url 'login'%}">Click here to login again.</a>
+  <h3 class="mb-4 text-center text-dark">Are you sure you want to log out?</h3>
+
+  <div class="d-flex gap-3">
+  <form method="post" action="{% url 'accounts:login' %}">
+    {% csrf_token %}
+    <button type="submit"
+            class="btn btn-danger btn-lg shadow rounded-pill px-4"
+            style="transition: transform 0.2s;">
+      Go to login
+    </button>
+  </form>
+  </div>
+  </div>
+  <script>
+      document.querySelectorAll('.btn').forEach(btn => {
+          btn.addEventListener('mouseover', () => btn.style.transform = 'scale(1.05)');
+          btn.addEventListener('mouseout', () => btn.style.transform = 'scale(1)');
+      });
+  </script>
 {% endblock %}

@@ -1,0 +1,41 @@
+{#загальна пагінація#}
+{% load query_transform %}
+{% if is_paginated %}
+<ul class="pagination justify-content-center my-3">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+        <a class="page-link bg-dark text-white rounded mx-1"
+           href="?{% query_transform request page=page_obj.previous_page_number %}">
+           Prev
+        </a>
+    </li>
+    {% endif %}
+
+    <li class="page-item active">
+        <span class="page-link bg-dark text-white rounded mx-1">
+            {{ page_obj.number }} of {{ paginator.num_pages }}
+        </span>
+    </li>
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+        <a class="page-link bg-dark text-white rounded mx-1"
+           href="?{% query_transform request page=page_obj.next_page_number %}">
+           Next
+        </a>
+    </li>
+    {% endif %}
+
+</ul>
+
+<style>
+.pagination .page-link {
+    transition: transform 0.2s;
+    padding: 0.5rem 1rem;
+}
+.pagination .page-link:hover:not(.disabled) {
+    transform: scale(1.05);
+}
+</style>
+{% endif %}

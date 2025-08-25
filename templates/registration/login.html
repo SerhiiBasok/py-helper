@@ -1,7 +1,8 @@
+{#форма логіну#}
 {% extends "base.html" %}
 
-
 {% block content %}
+
   <section class="w-100 px-4 py-5 gradient-custom" style="border-radius: .5rem .5rem 0 0;">
     <div class="row d-flex justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
@@ -15,7 +16,7 @@
               {% if form.errors %}
                 <p style="color: red">Invalid credentials</p>
               {% endif %}
-              <form method="post" action="{% url 'login' %}">
+              <form method="post" action="{% url 'accounts:login' %}">
                 {% csrf_token %}
                 <div data-mdb-input-init="" class="form-outline form-white mb-4" data-mdb-input-initialized="true">
                   <input type="text" name="username" id="typeText" class="form-control form-control-lg" required>
@@ -33,12 +34,10 @@
                   <label class="form-label" for="typePasswordX">Password</label>
                   <div class="form-notch">
                     <div class="form-notch-leading" style="width: 9px;"></div>
-                    <div class="form-notch-middle" style="width: 64.8px;"></div>
+                    <div class="form-notch-middle" style="width: 64px;"></div>
                     <div class="form-notch-trailing"></div>
                   </div>
                 </div>
-
-                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
 
                 <button data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-outline-light btn-lg px-5"
                         type="submit" data-mdb-button-initialized="true">Login
@@ -47,7 +46,7 @@
             </div>
 
             <div>
-              <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a></p>
+              <p class="mb-0">Don't have an account? <a href="{% url 'accounts:registration' %}" class="text-white-50 fw-bold">Sign Up</a></p>
             </div>
 
           </div>

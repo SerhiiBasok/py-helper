@@ -1,0 +1,87 @@
+{#рейтинг користувачів#}
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+
+  <div class="card bg-light shadow mb-4">
+    <div class="card-body">
+      <h2 class="card-title text-dark">
+        {% if user_obj.first_name or user_obj.last_name %}
+          {{ user_obj.first_name }} {{ user_obj.last_name }}
+        {% else %}
+          {{ user_obj.username }}
+        {% endif %}
+      </h2>
+
+      <p class="mb-1"><i class="bi bi-telephone-fill"></i> Phone: {{ phone|default:"—" }}</p>
+
+      <p class="mb-2">
+        ⭐ Average rating:
+        {% if avg_rating %}
+          <span class="fw-bold text-dark">{{ avg_rating|floatformat:1 }}/5</span>
+        {% else %}
+          <span class="text-muted">No feedback yet</span>
+        {% endif %}
+      </p>
+
+      {% if tags %}
+        <div class="mb-3">
+          {% for tag in tags %}
+            <span class="badge bg-secondary me-1">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No tags selected.</p>
+      {% endif %}
+
+      <div class="d-flex gap-2">
+    <a href="{% url 'accounts:profile' pk=user.id %}" class="btn btn-outline-dark btn-lg flex-grow-1">Back</a>
+
+    {% if user != user_obj %}
+        <a href="{% url 'ratings:feedback' user_id=user_obj.id %}" class="btn btn-dark btn-lg flex-grow-1">Leave Feedback</a>
+    {% endif %}
+</div>
+
+    </div>
+  </div>
+
+  <h4 class="mb-3 text-dark">Feedback</h4>
+  {% if ratings %}
+    {% for review in ratings %}
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <strong class="text-dark">
+              {% if review.from_user %}
+                {% if review.from_user.first_name or review.from_user.last_name %}
+                  {{ review.from_user.first_name }} {{ review.from_user.last_name }}
+                {% else %}
+                  {{ review.from_user.username }}
+                {% endif %}
+              {% else %}
+                User deleted
+              {% endif %}
+            </strong>
+            <small class="text-muted">{{ review.created_at|date:"d M Y H:i" }}</small>
+          </div>
+
+          {% if review.rating %}
+            <div class="mb-2 text-warning">
+              {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if review.comment %}
+            <p class="mb-0 text-dark">{{ review.comment }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-secondary">No feedback yet</div>
+  {% endif %}
+
+</div>
+{% endblock %}

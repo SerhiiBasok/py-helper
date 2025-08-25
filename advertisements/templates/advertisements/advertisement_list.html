@@ -1,0 +1,38 @@
+{#дошка оголошень, всі оголошення#}
+{% extends "base.html" %}
+
+{% block content %}
+
+  <br>
+  <form method="get" class="row mb-4">
+    <div class="col-md-4">
+      <label for="id_location" class="visually-hidden">Location</label>
+      <input type="text" id="id_location" name="location" class="form-control"
+             placeholder="Search by city"
+             value="{{ request.GET.location }}">
+    </div>
+
+    <div class="col-md-4">
+      <label for="id_category" class="visually-hidden">Category</label>
+      <input type="text" id="id_category" name="category" class="form-control"
+             placeholder="Search by category"
+             value="{{ request.GET.category }}">
+    </div>
+
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-dark w-100">
+        Search
+      </button>
+    </div>
+  </form>
+
+  <br>
+  {% include "includes/advertisements_board.html" %}
+  <div class="text-center my-4">
+    <a href="{% url 'home-page' %}"
+       class="btn btn-dark btn-lg shadow rounded-pill">
+      Cancel
+    </a>
+  </div>
+{% endblock %}
+

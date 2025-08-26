@@ -30,12 +30,18 @@ class UserInfoView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_obj"] = self.user_obj
-        profile = Profile.objects.select_related("user").prefetch_related("categories").get(user=self.user_obj)
+        profile = Profile.objects.select_related(
+            "user"
+        ).prefetch_related(
+            "categories"
+        ).get(user=self.user_obj)
         context["phone"] = profile.phone
         context["tags"] = [c.name for c in profile.categories.all()]
 
         from django.db.models import Avg
-        avg_rating = Rating.objects.filter(profile=profile).aggregate(Avg("rating"))["rating__avg"]
+        avg_rating = Rating.objects.filter(
+            profile=profile
+        ).aggregate(Avg("rating"))["rating__avg"]
         context["avg_rating"] = avg_rating or 0
 
         return context

@@ -11,7 +11,7 @@ from advertisements.views import (
     reject_application,
 )
 
-app_name = "advertisements"  # Роут на основну сторінку з оголошеннями
+app_name = "advertisements"
 
 urlpatterns = [
     path

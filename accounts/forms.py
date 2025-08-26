@@ -26,7 +26,9 @@ class ProfileLoginForm(AuthenticationForm):
 
 
 
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(
+    UserCreationForm
+):
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(

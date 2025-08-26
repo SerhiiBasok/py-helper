@@ -44,12 +44,10 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     model = Profile
     template_name = "accounts/profile.html"
 
-
     def get_queryset(self):
         return Profile.objects.select_related("user").prefetch_related(
             "user__advertisements"
         )
-
 
     def get_object(self, queryset=None):
         profile, created = Profile.objects.get_or_create(
@@ -77,7 +75,6 @@ class UpdateProfileView(LoginRequiredMixin,
                 "pk": self.object.user.pk
             }
         )
-
 
 
 class ServingProfileView(LoginRequiredMixin, generic.ListView):

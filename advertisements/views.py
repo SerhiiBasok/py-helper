@@ -4,13 +4,10 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DeleteView
 from django.views import generic
-
 from advertisements.forms import AdvertisementForm
 from advertisements.models import Advertisement, Application
 
-# Вʼю на оголошення
 
-# головна сторінка
 class HomePageView(LoginRequiredMixin, generic.ListView):
     model = Advertisement
     template_name = "advertisements/home_page.html"
@@ -23,7 +20,7 @@ class HomePageView(LoginRequiredMixin, generic.ListView):
             "-created_at"
         )[:3]
 
-# стрічка оголошень
+
 class AdvertisementList(LoginRequiredMixin, generic.ListView):
     model = Advertisement
     template_name = "advertisements/advertisement_list.html"
@@ -52,7 +49,7 @@ class AdvertisementList(LoginRequiredMixin, generic.ListView):
             )
         return queryset
 
-# створення оголошення
+
 class CreateAdvertisementView(LoginRequiredMixin, generic.CreateView):
     model = Advertisement
     form_class = AdvertisementForm
@@ -69,7 +66,7 @@ class CreateAdvertisementView(LoginRequiredMixin, generic.CreateView):
             kwargs={"pk": self.request.user.profile.pk}
         )
 
-# видалення оголошення
+
 class DeleteAdvertisementView(LoginRequiredMixin, DeleteView):
     model = Advertisement
 
@@ -79,10 +76,11 @@ class DeleteAdvertisementView(LoginRequiredMixin, DeleteView):
             kwargs={"pk": self.request.user.profile.pk}
         )
 
-# оновлення оголошення
+
 class UpdateAdvertisementView(
     LoginRequiredMixin,
-    generic.UpdateView):
+    generic.UpdateView
+):
     model = Advertisement
     form_class = AdvertisementForm
     template_name = "advertisements/advertisements_update.html"

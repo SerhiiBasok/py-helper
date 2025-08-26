@@ -16,7 +16,6 @@
           <form method="post" class="mt-4">
             {% csrf_token %}
 
-            <!-- Rating as stars -->
             <div class="mb-4 text-center">
               <label class="form-label d-block mb-2">Rating:</label>
               <div class="star-rating">
@@ -27,7 +26,6 @@
               </div>
             </div>
 
-            <!-- Comment -->
             <div class="form-outline form-white mb-4">
               {{ form.comment }}
             </div>

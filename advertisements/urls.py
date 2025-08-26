@@ -1,5 +1,4 @@
 from django.urls import path
-
 from accounts.views import done_application
 from advertisements.views import (
     CreateAdvertisementView,

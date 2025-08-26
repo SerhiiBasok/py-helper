@@ -71,14 +71,14 @@ class Application(models.Model):
             )
         ]
 
-    # прийняти заявку та закрити вакансію
+
     def accept(self):
         self.status = "accepted"
         self.save()
         self.advertisement.is_active = False
         self.advertisement.save()
 
-    # відхилити заявку
+
     def reject(self):
         self.status = "rejected"
         self.save()

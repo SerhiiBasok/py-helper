@@ -1,4 +1,4 @@
-# 📝 Bulletin Board
+# 📝 Helper
 
 A Django web application that allows users to create and browse advertisements for help in various areas (household work, repairs, technical tasks, etc.).  
 Registered users can:

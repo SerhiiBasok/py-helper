@@ -4,7 +4,6 @@ from django.conf import settings
 from .models import Profile
 
 
-# Сигнал для для створення профілю під час реєстраццї
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

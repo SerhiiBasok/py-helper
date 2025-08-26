@@ -4,7 +4,6 @@ from django.views import generic
 from categories.models import Category
 
 
-# Вʼю на категорії, функціонал додавання тільки через адмін панель
 class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Category
     fields = "__all__"

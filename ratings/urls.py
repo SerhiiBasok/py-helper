@@ -1,7 +1,7 @@
 from django.urls import path
 from ratings.views import UserInfoView, MakeFeedback
 
-app_name = "ratings"  # Роут на категорії
+app_name = "ratings"
 
 urlpatterns = [
     path(

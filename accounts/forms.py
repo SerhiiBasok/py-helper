@@ -5,7 +5,6 @@ from accounts.models import Profile, User
 from categories.models import Category
 
 
-# форма логіну
 class ProfileLoginForm(AuthenticationForm):
     username = forms.CharField(
         max_length=150,
@@ -26,7 +25,7 @@ class ProfileLoginForm(AuthenticationForm):
     )
 
 
-# форма реєстрації
+
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         required=True,
@@ -65,7 +64,6 @@ class CustomUserCreationForm(UserCreationForm):
         return email
 
 
-# форма для редагування профілю
 class ProfileForm(forms.ModelForm):
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),

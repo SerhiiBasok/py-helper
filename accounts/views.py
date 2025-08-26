@@ -12,10 +12,6 @@ from accounts.models import Profile
 from advertisements.models import Application
 
 
-# Вʼю на account
-
-
-# реєстрація користувача
 def register_view(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -28,13 +24,11 @@ def register_view(request):
     return render(request, "accounts/register.html", {"form": form})
 
 
-# логін користувача
 class LoginAccountView(LoginView):
     form_class = ProfileLoginForm
     template_name = "registration/login.html"
 
 
-# вихід з системи
 class LogoutConfirmView(View):
     template_name = "accounts/logged_out.html"
 
@@ -46,18 +40,17 @@ class LogoutConfirmView(View):
         return redirect("login")
 
 
-# Профіль користувача
 class ProfileView(LoginRequiredMixin, generic.DetailView):
     model = Profile
     template_name = "accounts/profile.html"
 
-    # оголошення користувача
+
     def get_queryset(self):
         return Profile.objects.select_related("user").prefetch_related(
             "user__advertisements"
         )
 
-    # отримуємо або створюємо профіль користувача
+
     def get_object(self, queryset=None):
         profile, created = Profile.objects.get_or_create(
             user=self.request.user
@@ -71,7 +64,6 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
         return profile
 
 
-# оновлення користувача
 class UpdateProfileView(LoginRequiredMixin,
                         generic.UpdateView):
     model = Profile
@@ -87,7 +79,7 @@ class UpdateProfileView(LoginRequiredMixin,
         )
 
 
-# лист бажаючих виконати завдання
+
 class ServingProfileView(LoginRequiredMixin, generic.ListView):
     model = Application
     template_name = "accounts/servings.html"

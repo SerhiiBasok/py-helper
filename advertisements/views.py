@@ -93,12 +93,10 @@ class UpdateAdvertisementView(
             kwargs={"pk": self.request.user.profile.pk}
         )
 
-# відгук на оголошення
+
 @login_required
 def apply_to_advertisement(request, ad_pk):
     ad = get_object_or_404(Advertisement, pk=ad_pk)
-
-    # перевіряємо, чи користувач вже подав заявку
     existing_app = Application.objects.filter(
         user=request.user, advertisement=ad
     ).first()
@@ -111,7 +109,7 @@ def apply_to_advertisement(request, ad_pk):
 
     return redirect("advertisements:list-advertisements")
 
-# передача відгуку у меседжі автора
+
 @login_required
 def reject_application(request, pk):
     application = get_object_or_404(Application, pk=pk)
@@ -122,7 +120,7 @@ def reject_application(request, pk):
         pk=request.user.pk
     )
 
-# прийняти запит на заявку
+
 @login_required
 def accept_application(request, pk):
     application = get_object_or_404(Application, pk=pk)

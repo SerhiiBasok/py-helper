@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 
 
-# Відгук користувача з коментарем і числовим рейтингом.
 class Rating(models.Model):
     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
 

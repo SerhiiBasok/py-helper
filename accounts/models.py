@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-# Модель користувача
 class User(AbstractUser):
     pass
 
@@ -12,7 +11,6 @@ class User(AbstractUser):
         return full_name if full_name else self.username
 
 
-# Профіль користувача з додатковою інформацією.
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,

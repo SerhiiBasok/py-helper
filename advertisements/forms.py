@@ -3,7 +3,6 @@ from advertisements.models import Advertisement
 from categories.models import Category
 
 
-# Форма створення оголошення
 class AdvertisementForm(forms.ModelForm):
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),

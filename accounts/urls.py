@@ -8,7 +8,7 @@ from accounts.views import (
     LogoutConfirmView,
 )
 
-app_name = "accounts"  # Роут на аккаунти
+app_name = "accounts"
 
 urlpatterns = [
     path(

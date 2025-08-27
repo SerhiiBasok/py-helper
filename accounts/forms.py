@@ -76,7 +76,7 @@ class ProfileForm(forms.ModelForm):
     first_name = forms.CharField(
         max_length=150,
         required=False,
-        label="First mame"
+        label="First name"
     )
     last_name = forms.CharField(
         max_length=150,

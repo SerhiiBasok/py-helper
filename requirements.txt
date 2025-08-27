@@ -6,6 +6,7 @@ django-debug-toolbar==6.0.0
 django-extensions==4.1
 dotenv==0.9.9
 flake8==7.3.0
+gunicorn==23.0.0
 mccabe==0.7.0
 mypy_extensions==1.1.0
 packaging==25.0

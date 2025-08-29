@@ -39,6 +39,11 @@ class Advertisement(models.Model):
         )
 
 
+class ApplicationStatus(models.TextChoices):
+    PENDING = "pending", "Pending"
+    ACCEPTED = "accepted", "Accepted"
+    REJECTED = "rejected", "Rejected"
+
 class Application(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -53,12 +58,8 @@ class Application(models.Model):
     message = models.TextField(blank=True)
     status = models.CharField(
         max_length=20,
-        choices=[
-            ("pending", "Pending"),
-            ("accepted", "Accept"),
-            ("rejected", "Rejected"),
-        ],
-        default="pending",
+        choices=ApplicationStatus.choices,
+        default=ApplicationStatus.PENDING,
     )
     created_at = models.DateTimeField(
         auto_now_add=True

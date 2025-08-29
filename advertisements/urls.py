@@ -7,7 +7,7 @@ from advertisements.views import (
     AdvertisementList,
     apply_to_advertisement,
     accept_application,
-    reject_application,
+    reject_application, job_done,
 )
 
 app_name = "advertisements"
@@ -50,6 +50,11 @@ urlpatterns = [
     path(
         "application/<int:pk>/done/",
         done_application,
+        name="done_application"
+    ),
+    path(
+        'application/<int:pk>/done/',
+        job_done,
         name="done_application"
     ),
 ]

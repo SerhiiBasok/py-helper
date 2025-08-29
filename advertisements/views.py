@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import DeleteView
 from django.views import generic
 from advertisements.forms import AdvertisementForm
-from advertisements.models import Advertisement, Application
+from advertisements.models import Advertisement, Application, ApplicationStatus
 
 
 class HomePageView(LoginRequiredMixin, generic.ListView):
@@ -103,6 +103,7 @@ def apply_to_advertisement(request, ad_pk):
             user=request.user,
             advertisement=ad,
             message=f"{request.user.username} was send message",
+            status=ApplicationStatus.PENDING.value
         )
 
     return redirect("advertisements:list-advertisements")
@@ -124,10 +125,20 @@ def accept_application(request, pk):
     application = get_object_or_404(Application, pk=pk)
     ad = application.advertisement
     if ad.user == request.user:
-        application.status = "accepted"
+        application.status = ApplicationStatus.ACCEPTED.value
         application.save()
         ad.is_active = False
         ad.save()
+    return redirect(
+        "accounts:profile-serving",
+        pk=request.user.pk
+    )
+
+@login_required
+def job_done(request, pk):
+    application = get_object_or_404(Application, pk=pk)
+    if application.advertisement.user == request.user:
+        application.delete()
     return redirect(
         "accounts:profile-serving",
         pk=request.user.pk

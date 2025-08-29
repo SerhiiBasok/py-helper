@@ -1,0 +1,232 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {"username": "walter_white", "email": "heisenberg@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {"username": "jesse_pinkman", "email": "yo@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {"username": "saul_goodman", "email": "bettercallsaul@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {"username": "gus_fring", "email": "los_pollos@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {"username": "mike_ere", "email": "mike@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 6,
+    "fields": {"username": "hank_schrader", "email": "hank@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 7,
+    "fields": {"username": "skyler_white", "email": "skyler@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 8,
+    "fields": {"username": "marie_schrader", "email": "marie@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 9,
+    "fields": {"username": "tuco_sal", "email": "tuco@example.com", "password": ""}
+  },
+  {
+    "model": "accounts.user",
+    "pk": 10,
+    "fields": {"username": "gale_boe", "email": "gale@example.com", "password": ""}
+  },
+
+  {
+    "model": "accounts.profile",
+    "pk": 1,
+    "fields": {"user": 1, "phone": "+123456789", "bio": "High school chemistry teacher, part-time entrepreneur.", "categories": [1,2]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 2,
+    "fields": {"user": 2, "phone": "+987654321", "bio": "Jack of all trades, mostly odd jobs. Yo!", "categories": [2,3]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 3,
+    "fields": {"user": 3, "phone": "+111111111", "bio": "Lawyer with creative solutions.", "categories": [4]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 4,
+    "fields": {"user": 4, "phone": "+222222222", "bio": "Businessman, restaurant owner.", "categories": [1,5]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 5,
+    "fields": {"user": 5, "phone": "+333333333", "bio": "Retired cop, security expert.", "categories": [2,6]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 6,
+    "fields": {"user": 6, "phone": "+444444444", "bio": "DEA agent.", "categories": [4,7]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 7,
+    "fields": {"user": 7, "phone": "+555555555", "bio": "Housewife, managing family.", "categories": [5,8]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 8,
+    "fields": {"user": 8, "phone": "+666666666", "bio": "Beautician, loves organizing parties.", "categories": [8,9]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 9,
+    "fields": {"user": 9, "phone": "+777777777", "bio": "Small-time gangster.", "categories": [3,6]}
+  },
+  {
+    "model": "accounts.profile",
+    "pk": 10,
+    "fields": {"user": 10, "phone": "+888888888", "bio": "Chemist, likes experimenting.", "categories": [1,2,4]}
+  },
+
+  {
+    "model": "categories.category",
+    "pk": 1,
+    "fields": {"name": "Cleaning"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 2,
+    "fields": {"name": "Repairs"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 3,
+    "fields": {"name": "Delivery"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 4,
+    "fields": {"name": "Legal Advice"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 5,
+    "fields": {"name": "Cooking"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 6,
+    "fields": {"name": "Security"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 7,
+    "fields": {"name": "Investigation"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 8,
+    "fields": {"name": "Household"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 9,
+    "fields": {"name": "Beauty Services"}
+  },
+  {
+    "model": "categories.category",
+    "pk": 10,
+    "fields": {"name": "Education"}
+  },
+
+  {
+    "model": "advertisements.advertisement",
+    "pk": 1,
+    "fields": {"user":1,"title":"Need help fixing a water heater","price":100,"location":"Albuquerque","categories":[2],"description":"Looking for someone to repair my broken water heater.","created_at":"2025-08-25T10:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 2,
+    "fields": {"user":2,"title":"Help with grocery delivery","price":30,"location":"Albuquerque","categories":[3],"description":"I need someone to pick up groceries and deliver them to my home.","created_at":"2025-08-24T14:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 3,
+    "fields": {"user":3,"title":"Legal consultation for business contracts","price":200,"location":"Albuquerque","categories":[4],"description":"Offering legal advice for small businesses.","created_at":"2025-08-23T09:30:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 4,
+    "fields": {"user":4,"title":"House cleaning service needed","price":50,"location":"Albuquerque","categories":[1],"description":"Looking for someone to clean my house this weekend.","created_at":"2025-08-22T12:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 5,
+    "fields": {"user":5,"title":"Home security installation","price":150,"location":"Albuquerque","categories":[6],"description":"Need cameras installed in my house.","created_at":"2025-08-21T15:30:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 6,
+    "fields": {"user":6,"title":"Investigation services required","price":500,"location":"Albuquerque","categories":[7],"description":"Looking for a private investigator for a case.","created_at":"2025-08-20T11:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 7,
+    "fields": {"user":7,"title":"Cooking lessons for kids","price":80,"location":"Albuquerque","categories":[5,10],"description":"Offering fun cooking classes for children.","created_at":"2025-08-19T09:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 8,
+    "fields": {"user":8,"title":"Beauty services at home","price":70,"location":"Albuquerque","categories":[9],"description":"Home manicure and pedicure.","created_at":"2025-08-18T14:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 9,
+    "fields": {"user":9,"title":"Fast delivery service","price":40,"location":"Albuquerque","categories":[3],"description":"Reliable deliveries within city limits.","created_at":"2025-08-17T16:00:00Z","is_active":true}
+  },
+  {
+    "model": "advertisements.advertisement",
+    "pk": 10,
+    "fields": {"user":10,"title":"Chemistry tutoring","price":60,"location":"Albuquerque","categories":[10],"description":"Private chemistry lessons for high school students.","created_at":"2025-08-16T10:00:00Z","is_active":true}
+  },
+
+  {
+    "model": "advertisements.application",
+    "pk": 1,
+    "fields": {"user":2,"advertisement":1,"message":"Yo, I can fix that for you!","status":"pending","created_at":"2025-08-25T11:00:00Z"}
+  },
+  {
+    "model": "advertisements.application",
+    "pk": 2,
+    "fields": {"user":4,"advertisement":2,"message":"My delivery service is fast and reliable.","status":"accepted","created_at":"2025-08-24T15:00:00Z"}
+  },
+
+  {
+    "model": "ratings.rating",
+    "pk": 1,
+    "fields": {"profile":1,"from_user":2,"rating":5,"comment":"Great to work with, very professional.","created_at":"2025-08-25T12:00:00Z"}
+  },
+  {
+    "model": "ratings.rating",
+    "pk": 2,
+    "fields": {"profile":2,"from_user":1,"rating":4,"comment":"Good effort, but could be more punctual.","created_at":"2025-08-24T18:00:00Z"}
+  },
+  {
+    "model": "ratings.rating",
+    "pk": 3,
+    "fields": {"profile":3,"from_user":4,"rating":5,"comment":"Excellent legal advice.","created_at":"2025-08-23T10:00:00Z"}
+  }
+]

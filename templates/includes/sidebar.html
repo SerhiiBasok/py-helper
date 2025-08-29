@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg py-3 navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home-page' %}">
+      HELPER</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar4"
+            aria-controls="myNavbar4" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="lc-block collapse navbar-collapse" id="myNavbar4">
+      <div class="live-shortcode me-auto">
+        <ul id="menu-menu-1" class="navbar-nav">
+
+          <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739">
+            {% if user.is_authenticated %}
+              <a href="{% url 'advertisements:create-advertisement' %}" class="nav-link">Find a specialist</a>
+            {% else %}
+              <a href="{% url 'accounts:login' %}" class="nav-link">Find a specialist</a>
+            {% endif %}
+          </li>
+          <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home nav-item nav-item-32738">
+            {% if user.is_authenticated %}
+              <a
+                  href="{% url 'advertisements:list-advertisements' %}" class="nav-link ">Want help</a></li>
+            {% else %}
+              <a href="{% url 'accounts:login' %}" class="nav-link">Want help</a>
+            {% endif %}
+        </ul>
+      </div>
+      <div class="live-shortcode ms-auto">
+        <ul id="menu-secondary" class="navbar-nav">
+          <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown nav-item nav-item-33131">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+               aria-haspopup="true" aria-expanded="false">
+              {% if user.is_authenticated %}
+                {{ user.first_name|default:user.username }}
+              {% else %}
+                Login
+              {% endif %}
+            </a>
+            <ul class="dropdown-menu bg-dark bg-opacity-75 text-white shadow-lg depth_0">
+              {% if user.is_authenticated and user.profile %}
+                <li>
+                  <a class="btn btn-outline-light btn-lg w-100 py-2"
+                     href="{% url 'accounts:profile' user.profile.pk %}">
+                    My profile
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider bg-light">
+                </li>
+                <li>
+                  <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light btn-lg w-100 py-2">Log out</button>
+                  </form>
+                </li>
+              {% else %}
+                <li><a class="btn btn-outline-light btn-lg w-100 py-2" href="{% url 'accounts:login' %}">Login</a></li>
+                <li><a class="btn btn-outline-light btn-lg w-100 py-2"
+                       href="{% url 'accounts:registration' %}">Register</a></li>
+              {% endif %}
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <section class="w-100 px-4 py-5 gradient-custom" style="border-radius: .5rem .5rem 0 0;">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2 text-uppercase">Update Profile</h2>
+              <p class="text-white-50 mb-5">Edit your profile information below</p>
+
+              <form method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- First name -->
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}"
+                         class="form-control form-control-lg"
+                         value="{{ form.first_name.value|default_if_none:'' }}">
+                  <label class="form-label" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                  <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 60px;"></div>
+                    <div class="form-notch-trailing"></div>
+                  </div>
+                  {% if form.first_name.errors %}
+                    <div class="text-danger small">{{ form.first_name.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+
+                <!-- Last name -->
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}"
+                         class="form-control form-control-lg"
+                         value="{{ form.last_name.value|default_if_none:'' }}">
+                  <label class="form-label" for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                  <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 60px;"></div>
+                    <div class="form-notch-trailing"></div>
+                  </div>
+                  {% if form.last_name.errors %}
+                    <div class="text-danger small">{{ form.last_name.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+
+                {% for field in form %}
+                  {% if field.name != "first_name" and field.name != "last_name" and field.name != "categories" %}
+                    <div data-mdb-input-init class="form-outline form-white mb-4">
+                      <input type="{{ field.field.widget.input_type }}"
+                             name="{{ field.name }}"
+                             id="{{ field.id_for_label }}"
+                             class="form-control form-control-lg"
+                             value="{{ field.value|default_if_none:'' }}">
+                      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      <div class="form-notch">
+                        <div class="form-notch-leading" style="width: 9px;"></div>
+                        <div class="form-notch-middle" style="width: 80px;"></div>
+                        <div class="form-notch-trailing"></div>
+                      </div>
+                      {% if field.errors %}
+                        <div class="text-danger small">{{ field.errors|striptags }}</div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+
+                <div class="mb-4 text-start">
+                  <label class="form-label d-block text-white">{{ form.categories.label }}</label>
+                  <div class="d-flex flex-wrap gap-3">
+                    {% for checkbox in form.categories %}
+                      <div class="form-check">
+                        {{ checkbox.tag }}
+                        <label class="form-check-label">{{ checkbox.choice_label }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  {% if form.categories.errors %}
+                    <div class="text-danger small">{{ form.categories.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">
+                  Save Changes
+                </button>
+                <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-link text-white-50">
+                  Cancel
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

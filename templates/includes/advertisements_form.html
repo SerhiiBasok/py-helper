@@ -1,0 +1,95 @@
+<section class="w-100 px-4 py-5 gradient-custom" style="border-radius: .5rem .5rem 0 0;">
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body p-5 text-center">
+
+          <div class="mb-md-5 mt-md-4 pb-5">
+            <h2 class="fw-bold mb-2 text-uppercase">{{ object|yesno:"Update,Create" }} Advertisement</h2>
+            <p class="text-white-50 mb-5">Fill in the advertisement details below</p>
+
+            {% if form.errors %}
+              <p class="text-danger mb-3">Please correct the errors below.</p>
+            {% endif %}
+
+            <form method="post" novalidate>
+              {% csrf_token %}
+
+              {% for field in form %}
+                {% if field.name == "description" %}
+                  <div class="form-outline form-white mb-4">
+                                        <textarea name="{{ field.name }}"
+                                                  id="{{ field.id_for_label }}"
+                                                  class="form-control form-control-lg"
+                                                  rows="5"
+                                            {% if field.field.required %}
+                                                  required {% endif %}>{{ field.value|default_if_none:'' }}</textarea>
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.errors %}
+                      <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </div>
+
+                {% elif field.name == "categories" %}
+
+                  <div class="text-start mb-3">
+                    <label class="form-label text-white">{{ field.label }}</label><br>
+                    {% for option in field %}
+                      <div class="form-check d-inline-block me-3">
+                        {{ option.tag }}
+                        <label class="form-check-label text-white" for="{{ option.id_for_label }}">
+                          {{ option.choice_label }}
+                        </label>
+                      </div>
+                    {% endfor %}
+                    {% if field.errors %}
+                      <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </div>
+
+                {% elif field.field.widget.input_type == "checkbox" %}
+                  <div class="form-check text-start mb-3">
+                    {{ field }}
+                    <label class="form-check-label text-white" for="{{ field.id_for_label }}">
+                      {{ field.label }}
+                    </label>
+                    {% if field.errors %}
+                      <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </div>
+
+                {% else %}
+                  <div class="form-outline form-white mb-4">
+                    <input type="{{ field.field.widget.input_type }}"
+                           name="{{ field.name }}"
+                           id="{{ field.id_for_label }}"
+                           value="{{ field.value|default_if_none:'' }}"
+                           class="form-control form-control-lg"
+                        {% if field.field.required %} required {% endif %}>
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div class="form-notch">
+                      <div class="form-notch-leading" style="width: 9px;"></div>
+                      <div class="form-notch-middle" style="width: 40px;"></div>
+                      <div class="form-notch-trailing"></div>
+                    </div>
+                    {% if field.errors %}
+                      <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <button class="btn btn-outline-light btn-lg w-100 py-2" type="submit">
+                Save Changes
+              </button>
+              <a href="{% url 'accounts:profile' pk=user.id %}" class="btn btn-link text-white-50 mt-2 d-block">
+                Back
+              </a>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

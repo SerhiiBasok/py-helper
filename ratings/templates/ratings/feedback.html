@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="w-100 px-4 py-5 gradient-custom">
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card bg-dark text-white shadow" style="border-radius: 1rem;">
+        <div class="card-body p-5">
+
+          <div class="text-center mb-4">
+            <h2 class="fw-bold mb-2">Leave a Review</h2>
+            <p class="text-white-50 mb-0">Rate the user and leave a comment</p>
+          </div>
+
+          <form method="post" class="mt-4">
+            {% csrf_token %}
+
+            <div class="mb-4 text-center">
+              <label class="form-label d-block mb-2">Rating:</label>
+              <div class="star-rating">
+                {% for i in "54321" %}
+                  <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}">
+                  <label for="star{{ i }}">★</label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="form-outline form-white mb-4">
+              {{ form.comment }}
+            </div>
+
+            {% if form.errors %}
+              <div class="alert alert-danger">
+                Please correct the errors in the form.
+              </div>
+            {% endif %}
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-outline-light btn-lg flex-grow-1">Save</button>
+              <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-outline-light btn-lg flex-grow-1">Back</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CSS for star rating -->
+<style>
+.star-rating {
+  direction: rtl;
+  display: inline-block;
+  font-size: 2rem;
+}
+.star-rating input[type="radio"] {
+  display: none;
+}
+.star-rating label {
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #ffc107; /* Yellow stars */
+}
+</style>
+{% endblock %}

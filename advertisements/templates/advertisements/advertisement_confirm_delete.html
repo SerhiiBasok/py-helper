@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Delete advertisement?</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+
+    <input type="submit" value="Yes" class="btn btn-danger btn-lg shadow rounded-pill px-4"
+           style="transition: transform 0.2s;">
+    <a href="{{ request.META.HTTP_REFERER|default:'/' }}"
+       class="btn btn-dark btn-lg shadow rounded-pill px-4"
+       style="transition: transform 0.2s;">
+      Cancel
+    </a>
+  </form>
+{% endblock %}
